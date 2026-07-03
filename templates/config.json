@@ -1,0 +1,46 @@
+{
+  "brand_prefix": "READY",
+  "brand_accent": "4",
+  "brand_suffix": "INDUSTRY",
+  "tagline": "UPSKILL · APPLY · ADVANCE",
+  "program_name": "AI for Everyone",
+  "footer_tagline": "Learn Today. Lead Tomorrow.",
+  "track_letter": "A",
+  "track_full": "AI Fundamental Essentials",
+  "duration": "5 days",
+  "time_commitment": "1 hour per day",
+  "mode": "Live and hands-on practice",
+  "highlights_intro": "Having completed this track, the candidate has demonstrated proficiency in learning to work effectively with AI by mastering the following core competencies.",
+  "highlights": [
+    {
+      "title": "Prompt and content engineering",
+      "desc": "Crafting effective prompts and engineering content outputs."
+    },
+    {
+      "title": "Strategic AI application",
+      "desc": "Deploying ChatGPT, Gemini, Claude, and Grok for daily and professional workflows."
+    },
+    {
+      "title": "Operational integrity",
+      "desc": "Implementing AI hygiene, privacy guardrails, and techniques to mitigate hallucinations."
+    },
+    {
+      "title": "Knowledge synthesis",
+      "desc": "Using NotebookLM and RAG-based tools to manage information effectively."
+    },
+    {
+      "title": "Conceptual fluency",
+      "desc": "Distinguishing AI agents from agentic AI, and navigating free versus paid tools."
+    }
+  ],
+  "closing_statement": "This achievement reflects a commitment to continuous learning and readiness to apply artificial intelligence responsibly and effectively in the real world.",
+  "signatory_name": "Keshav Karn",
+  "signatory_role": "Founder and Program Trainer, Ready4Industry",
+  "signatory_signature_image": "assets/signature.png",
+  "seal_initials": "R4I",
+  "seal_subtext": "EST. AI ACADEMY",
+  "seal_ring_text": "LEARN TODAY · LEAD TOMORROW",
+  "website": "www.ready4industry.in",
+  "social_handle": "in/ready4industry",
+  "cert_id_prefix": "R4I-AFE"
+}
