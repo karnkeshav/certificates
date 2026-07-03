@@ -1,0 +1,132 @@
+name: Generate Certificate
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Recipient's full name"
+        required: true
+        type: string
+      date:
+        description: 'Completion date, e.g. "3rd July 2026" (default: today)'
+        required: false
+        type: string
+      track_letter:
+        description: "Track letter, e.g. A (default: from config.json)"
+        required: false
+        type: string
+      track_full:
+        description: "Track full name (default: from config.json)"
+        required: false
+        type: string
+      duration:
+        description: 'Program duration, e.g. "5 days" (default: from config.json)'
+        required: false
+        type: string
+      time_commitment:
+        description: 'Time commitment, e.g. "1 hour per day" (default: from config.json)'
+        required: false
+        type: string
+      mode:
+        description: 'Delivery mode, e.g. "Live and hands-on practice" (default: from config.json)'
+        required: false
+        type: string
+      highlights_intro:
+        description: "Achievement highlights intro paragraph (default: from config.json)"
+        required: false
+        type: string
+      highlights:
+        description: "Highlights as 'Title | Description; Title | Description; ...' (default: from config.json)"
+        required: false
+        type: string
+      cert_id:
+        description: "Certificate ID (default: auto-generated)"
+        required: false
+        type: string
+      commit_to_repo:
+        description: "Commit the generated PDF into certificates/ on this branch"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install WeasyPrint system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libpango-1.0-0 \
+            libpangocairo-1.0-0 \
+            libpangoft2-1.0-0 \
+            libgdk-pixbuf2.0-0 \
+            libcairo2 \
+            libffi-dev \
+            fonts-liberation \
+            shared-mime-info
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate certificate
+        id: generate
+        env:
+          CERT_NAME: ${{ inputs.name }}
+          CERT_DATE: ${{ inputs.date }}
+          CERT_TRACK_LETTER: ${{ inputs.track_letter }}
+          CERT_TRACK_FULL: ${{ inputs.track_full }}
+          CERT_DURATION: ${{ inputs.duration }}
+          CERT_TIME_COMMITMENT: ${{ inputs.time_commitment }}
+          CERT_MODE: ${{ inputs.mode }}
+          CERT_HIGHLIGHTS_INTRO: ${{ inputs.highlights_intro }}
+          CERT_HIGHLIGHTS: ${{ inputs.highlights }}
+          CERT_ID: ${{ inputs.cert_id }}
+        run: |
+          ARGS=(--name "$CERT_NAME")
+          if [ -n "$CERT_DATE" ]; then ARGS+=(--date "$CERT_DATE"); fi
+          if [ -n "$CERT_TRACK_LETTER" ]; then ARGS+=(--track-letter "$CERT_TRACK_LETTER"); fi
+          if [ -n "$CERT_TRACK_FULL" ]; then ARGS+=(--track-full "$CERT_TRACK_FULL"); fi
+          if [ -n "$CERT_DURATION" ]; then ARGS+=(--duration "$CERT_DURATION"); fi
+          if [ -n "$CERT_TIME_COMMITMENT" ]; then ARGS+=(--time-commitment "$CERT_TIME_COMMITMENT"); fi
+          if [ -n "$CERT_MODE" ]; then ARGS+=(--mode "$CERT_MODE"); fi
+          if [ -n "$CERT_HIGHLIGHTS_INTRO" ]; then ARGS+=(--highlights-intro "$CERT_HIGHLIGHTS_INTRO"); fi
+          if [ -n "$CERT_HIGHLIGHTS" ]; then ARGS+=(--highlights "$CERT_HIGHLIGHTS"); fi
+          if [ -n "$CERT_ID" ]; then ARGS+=(--cert-id "$CERT_ID"); fi
+
+          python scripts/generate.py "${ARGS[@]}"
+
+          OUTPUT_FILE=$(ls -t output/*.pdf | head -n 1)
+          echo "output_file=${OUTPUT_FILE}" >> "$GITHUB_OUTPUT"
+          echo "output_name=$(basename "${OUTPUT_FILE}")" >> "$GITHUB_OUTPUT"
+
+      - name: Upload certificate artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.generate.outputs.output_name }}
+          path: ${{ steps.generate.outputs.output_file }}
+
+      - name: Commit certificate to repository
+        if: ${{ inputs.commit_to_repo == 'true' || inputs.commit_to_repo == true }}
+        run: |
+          mkdir -p certificates
+          cp "${{ steps.generate.outputs.output_file }}" "certificates/${{ steps.generate.outputs.output_name }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "certificates/${{ steps.generate.outputs.output_name }}"
+          git commit -m "Add certificate: ${{ steps.generate.outputs.output_name }}"
+          git push

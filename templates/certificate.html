@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Certificate of Achievement</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap');
+
+  @page {
+    size: 1300px 930px;
+    margin: 0;
+  }
+
+  :root {
+    --navy: #16213e;
+    --navy-soft: #2a3b63;
+    --gold: #c9a24b;
+    --gold-soft: #e0c98a;
+    --cream: #f8f4ea;
+    --cream-dark: #ece3cf;
+    --paper: #fbf8f1;
+    --gray: #6d6a62;
+    --gray-light: #948f83;
+    --hairline: #ddd0ab;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 1300px;
+    height: 930px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: var(--navy);
+    background: var(--cream-dark);
+  }
+
+  .serif { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+
+  .page {
+    position: relative;
+    width: 1300px;
+    height: 930px;
+    background: var(--cream-dark);
+    overflow: hidden;
+  }
+
+  /* ---------- outer card ---------- */
+  .card {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    right: 22px;
+    bottom: 40px;
+    background: var(--paper);
+    border: 1.5px solid var(--gold);
+  }
+
+  .card-inner-border {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    right: 7px;
+    bottom: 7px;
+    border: 1px solid var(--gold);
+  }
+
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    z-index: 3;
+  }
+  .corner-tl { top: -8px; left: -8px; border-top: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold); }
+  .corner-tr { top: -8px; right: -8px; border-top: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold); }
+  .corner-bl { bottom: -8px; left: -8px; border-bottom: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold); }
+  .corner-br { bottom: -8px; right: -8px; border-bottom: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold); }
+
+  /* ---------- content grid ---------- */
+  .content {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cert-id {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    text-align: right;
+  }
+  .cert-id-label {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--gray-light);
+  }
+  .cert-id-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 1px;
+  }
+
+  .main-row {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-top: 46px;
+  }
+
+  /* ---------- left sidebar ---------- */
+  .sidebar-left {
+    width: 235px;
+    flex: 0 0 235px;
+    padding-right: 24px;
+  }
+
+  .badge-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 26px;
+  }
+  .badge-circle {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2.5px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .badge-track {
+    color: var(--gold-soft);
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    margin-left: 4px;
+  }
+  .badge-letter {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 3px;
+  }
+  .badge-ribbon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    margin-top: -6px;
+  }
+  .ribbon-tail {
+    position: relative;
+    width: 20px;
+    height: 22px;
+    background: var(--navy-soft);
+    border-left: 1px solid var(--gold);
+    border-right: 1px solid var(--gold);
+  }
+  .ribbon-tail::after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    bottom: -9px;
+    width: 0;
+    height: 0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-top: 9px solid var(--navy-soft);
+  }
+  .ribbon-tail-left { transform: rotate(-6deg); transform-origin: top center; }
+  .ribbon-tail-right { transform: rotate(6deg); transform-origin: top center; }
+
+  .highlights-header {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--navy);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .highlights-intro {
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+
+  .highlight-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .highlight-item:first-child { border-top: none; padding-top: 0; }
+
+  .highlight-icon {
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.3px solid var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .highlight-icon svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--navy);
+  }
+
+  .highlight-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .highlight-desc {
+    font-size: 10px;
+    line-height: 1.45;
+    color: var(--gray);
+  }
+
+  /* ---------- center column ---------- */
+  .center {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 14px;
+    min-width: 0;
+  }
+
+  .brand-name {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--navy);
+  }
+  .brand-name .accent { color: var(--gold); }
+  .brand-tagline {
+    font-size: 9.5px;
+    letter-spacing: 0.32em;
+    color: var(--gray-light);
+    margin-top: 2px;
+  }
+
+  .cert-title {
+    font-size: 58px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 22px 0 0 0;
+    line-height: 1;
+  }
+  .cert-subtitle {
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    margin-top: 6px;
+  }
+
+  .certify-line {
+    font-size: 12.5px;
+    color: var(--gray);
+    margin-top: 26px;
+  }
+  .recipient-name {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--gold);
+    display: inline-block;
+    max-width: 640px;
+  }
+  .completed-line {
+    font-size: 12.5px;
+    color: var(--gray);
+    margin-top: 14px;
+  }
+
+  .track-box {
+    width: 100%;
+    max-width: 560px;
+    background: var(--navy);
+    color: #ffffff;
+    text-align: center;
+    padding: 16px 24px 18px;
+    margin-top: 22px;
+  }
+  .track-name {
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .program-label {
+    font-size: 8.5px;
+    letter-spacing: 0.22em;
+    color: #b9c0d4;
+    margin-top: 8px;
+  }
+  .program-name {
+    font-style: italic;
+    font-size: 15px;
+    color: var(--gold-soft);
+    margin-top: 3px;
+  }
+
+  .closing-statement {
+    font-style: italic;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 620px;
+    margin-top: 22px;
+  }
+
+  /* ---------- right sidebar ---------- */
+  .sidebar-right {
+    width: 220px;
+    flex: 0 0 220px;
+    padding-left: 24px;
+  }
+
+  .snapshot-header {
+    background: var(--navy);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 9px 14px;
+  }
+
+  .snapshot-list {
+    border: 1px solid var(--hairline);
+    border-top: none;
+  }
+
+  .snapshot-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 14px;
+    border-top: 1px solid var(--hairline);
+  }
+  .snapshot-item:first-child { border-top: none; }
+
+  .snapshot-icon {
+    flex: 0 0 15px;
+    width: 15px;
+    height: 15px;
+    margin-top: 1px;
+  }
+  .snapshot-icon svg {
+    width: 15px;
+    height: 15px;
+    stroke: var(--gold);
+  }
+
+  .snapshot-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .snapshot-value {
+    font-size: 10px;
+    color: var(--gray);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* ---------- footer ---------- */
+  .footer-row {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 6px 4px 259px;
+    margin-top: 18px;
+  }
+
+  .date-block {
+    text-align: left;
+  }
+  .date-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--gold);
+    min-width: 150px;
+  }
+  .date-label {
+    font-size: 9.5px;
+    color: var(--gray-light);
+    margin-top: 5px;
+  }
+
+  .footer-right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 26px;
+  }
+
+  .signature-block {
+    text-align: center;
+  }
+  .signature-img {
+    height: 46px;
+    display: block;
+    margin: 0 auto;
+    mix-blend-mode: multiply;
+  }
+  .signature-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    padding-top: 6px;
+    margin-top: 6px;
+    border-top: 1px solid var(--gold);
+    min-width: 190px;
+  }
+  .signature-role {
+    font-size: 9.5px;
+    color: var(--gray-light);
+    margin-top: 3px;
+  }
+
+  /* ---------- seal ---------- */
+  .seal {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    flex: 0 0 92px;
+  }
+  .seal-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+  }
+  .seal-ring-inner {
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    background: var(--paper);
+  }
+  .seal-char {
+    position: absolute;
+    top: 46px;
+    left: 46px;
+    font-size: 7.3px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--navy-soft);
+    transform-origin: 0 0;
+  }
+  .seal-core {
+    position: absolute;
+    top: 18px; left: 18px; right: 18px; bottom: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .seal-star { color: var(--gold); font-size: 8px; line-height: 1; }
+  .seal-initials {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .seal-subtext {
+    font-size: 5px;
+    letter-spacing: 0.06em;
+    color: var(--gray);
+    margin-top: 1px;
+  }
+
+  /* ---------- bottom strip ---------- */
+  .bottom-strip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: var(--navy);
+    color: var(--cream);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+  .bottom-strip .strip-center {
+    color: #d7dbe8;
+  }
+  .bottom-strip .strip-center strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <div class="card-inner-border"></div>
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+
+      <div class="content">
+        <div class="cert-id">
+          <div class="cert-id-label">Certificate ID</div>
+          <div class="cert-id-value">{{CERT_ID}}</div>
+        </div>
+
+        <div class="main-row">
+          <!-- LEFT SIDEBAR -->
+          <div class="sidebar-left">
+            <div class="badge-wrap">
+              <div class="badge-circle">
+                <div class="badge-track">TRACK</div>
+                <div class="badge-letter">{{TRACK_LETTER}}</div>
+              </div>
+              <div class="badge-ribbon">
+                <div class="ribbon-tail ribbon-tail-left"></div>
+                <div class="ribbon-tail ribbon-tail-right"></div>
+              </div>
+            </div>
+
+            <div class="highlights-header">ACHIEVEMENT HIGHLIGHTS</div>
+            <div class="highlights-intro">{{HIGHLIGHTS_INTRO}}</div>
+            <div class="highlights-list">
+              {{HIGHLIGHTS_HTML}}
+            </div>
+          </div>
+
+          <!-- CENTER -->
+          <div class="center">
+            <div class="brand-name">{{BRAND_PREFIX}}<span class="accent">{{BRAND_ACCENT}}</span>{{BRAND_SUFFIX}}</div>
+            <div class="brand-tagline">{{TAGLINE}}</div>
+
+            <div class="cert-title serif">Certificate</div>
+            <div class="cert-subtitle serif">OF ACHIEVEMENT</div>
+
+            <div class="certify-line">This is to certify that</div>
+            <div class="recipient-name serif">{{RECIPIENT_NAME}}</div>
+            <div class="completed-line">has successfully completed</div>
+
+            <div class="track-box">
+              <div class="track-name serif">Track {{TRACK_LETTER}} &middot; {{TRACK_FULL}}</div>
+              <div class="program-label">AS PART OF THE PROGRAM</div>
+              <div class="program-name serif">{{PROGRAM_NAME}}</div>
+            </div>
+
+            <div class="closing-statement serif">{{CLOSING_STATEMENT}}</div>
+          </div>
+
+          <!-- RIGHT SIDEBAR -->
+          <div class="sidebar-right">
+            <div class="snapshot-header">PROGRAM SNAPSHOT</div>
+            <div class="snapshot-list">
+              <div class="snapshot-item">
+                <div class="snapshot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
+                <div>
+                  <div class="snapshot-label">Duration</div>
+                  <div class="snapshot-value">{{DURATION}}</div>
+                </div>
+              </div>
+              <div class="snapshot-item">
+                <div class="snapshot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+                <div>
+                  <div class="snapshot-label">Time commitment</div>
+                  <div class="snapshot-value">{{TIME_COMMITMENT}}</div>
+                </div>
+              </div>
+              <div class="snapshot-item">
+                <div class="snapshot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></div>
+                <div>
+                  <div class="snapshot-label">Mode</div>
+                  <div class="snapshot-value">{{MODE}}</div>
+                </div>
+              </div>
+              <div class="snapshot-item">
+                <div class="snapshot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+                <div>
+                  <div class="snapshot-label">Track</div>
+                  <div class="snapshot-value">{{TRACK_LETTER}} &mdash; {{TRACK_FULL}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-row">
+          <div class="date-block">
+            <div class="date-value">{{COMPLETION_DATE}}</div>
+            <div class="date-label">Date of completion</div>
+          </div>
+
+          <div class="footer-right">
+            <div class="signature-block">
+              <img class="signature-img" src="{{SIGNATORY_SIGNATURE_IMG}}" alt="Signature" />
+              <div class="signature-name">{{SIGNATORY_NAME}}</div>
+              <div class="signature-role">{{SIGNATORY_ROLE}}</div>
+            </div>
+
+            <div class="seal">
+              <div class="seal-ring"></div>
+              <div class="seal-ring-inner"></div>
+              {{SEAL_RING_CHARS}}
+              <div class="seal-core">
+                <div class="seal-star">&#9733;</div>
+                <div class="seal-initials">{{SEAL_INITIALS}}</div>
+                <div class="seal-subtext">{{SEAL_SUBTEXT}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-strip">
+      <div class="strip-left">{{WEBSITE}}</div>
+      <div class="strip-center"><strong>{{PROGRAM_NAME}}</strong> | {{FOOTER_TAGLINE}}</div>
+      <div class="strip-right">{{SOCIAL_HANDLE}}</div>
+    </div>
+  </div>
+</body>
+</html>
