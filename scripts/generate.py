@@ -75,13 +75,13 @@ def build_highlights_html(highlights: list) -> str:
     for i, item in enumerate(highlights):
         icon = HIGHLIGHT_ICONS[i % len(HIGHLIGHT_ICONS)]
         items.append(
-            '<div class="highlight-item">'
+            '<li class="highlight-item">'
             f'<div class="highlight-icon">{icon}</div>'
             '<div>'
             f'<div class="highlight-title">{item["title"]}</div>'
             f'<div class="highlight-desc">{item["desc"]}</div>'
             '</div>'
-            '</div>'
+            '</li>'
         )
     return "\n".join(items)
 
