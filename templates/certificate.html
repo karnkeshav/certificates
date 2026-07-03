@@ -142,16 +142,17 @@
   }
   .badge-track {
     color: var(--gold-soft);
-    font-size: 8px;
-    letter-spacing: 0.35em;
-    margin-left: 4px;
+    font-size: 6.5px;
+    letter-spacing: 0.2em;
+    text-align: center;
   }
   .badge-letter {
     color: #ffffff;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1;
-    margin-top: 3px;
+    margin-top: 4px;
+    text-align: center;
   }
   .badge-ribbon {
     display: flex;
@@ -199,6 +200,12 @@
     margin-bottom: 16px;
   }
 
+  .highlights-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   .highlight-item {
     display: flex;
     flex-direction: row;
@@ -230,6 +237,12 @@
     font-weight: 700;
     color: var(--navy);
     margin-bottom: 2px;
+  }
+  .highlight-title::before {
+    content: "\2022";
+    color: var(--gold);
+    font-weight: 700;
+    margin-right: 5px;
   }
   .highlight-desc {
     font-size: 10px;
@@ -560,9 +573,9 @@
 
             <div class="highlights-header">ACHIEVEMENT HIGHLIGHTS</div>
             <div class="highlights-intro">{{HIGHLIGHTS_INTRO}}</div>
-            <div class="highlights-list">
+            <ul class="highlights-list">
               {{HIGHLIGHTS_HTML}}
-            </div>
+            </ul>
           </div>
 
           <!-- CENTER -->
