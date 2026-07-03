@@ -35,8 +35,44 @@ on:
         description: "Achievement highlights intro paragraph (default: from config.json)"
         required: false
         type: string
-      highlights:
-        description: "Highlights as 'Title | Description; Title | Description; ...' (default: from config.json)"
+      highlight1_title:
+        description: "Highlight 1 title (default: from config.json)"
+        required: false
+        type: string
+      highlight1_desc:
+        description: "Highlight 1 description (default: from config.json)"
+        required: false
+        type: string
+      highlight2_title:
+        description: "Highlight 2 title (default: from config.json)"
+        required: false
+        type: string
+      highlight2_desc:
+        description: "Highlight 2 description (default: from config.json)"
+        required: false
+        type: string
+      highlight3_title:
+        description: "Highlight 3 title (default: from config.json)"
+        required: false
+        type: string
+      highlight3_desc:
+        description: "Highlight 3 description (default: from config.json)"
+        required: false
+        type: string
+      highlight4_title:
+        description: "Highlight 4 title (default: from config.json)"
+        required: false
+        type: string
+      highlight4_desc:
+        description: "Highlight 4 description (default: from config.json)"
+        required: false
+        type: string
+      highlight5_title:
+        description: "Highlight 5 title (default: from config.json)"
+        required: false
+        type: string
+      highlight5_desc:
+        description: "Highlight 5 description (default: from config.json)"
         required: false
         type: string
       cert_id:
@@ -93,7 +129,16 @@ jobs:
           CERT_TIME_COMMITMENT: ${{ inputs.time_commitment }}
           CERT_MODE: ${{ inputs.mode }}
           CERT_HIGHLIGHTS_INTRO: ${{ inputs.highlights_intro }}
-          CERT_HIGHLIGHTS: ${{ inputs.highlights }}
+          CERT_HIGHLIGHT1_TITLE: ${{ inputs.highlight1_title }}
+          CERT_HIGHLIGHT1_DESC: ${{ inputs.highlight1_desc }}
+          CERT_HIGHLIGHT2_TITLE: ${{ inputs.highlight2_title }}
+          CERT_HIGHLIGHT2_DESC: ${{ inputs.highlight2_desc }}
+          CERT_HIGHLIGHT3_TITLE: ${{ inputs.highlight3_title }}
+          CERT_HIGHLIGHT3_DESC: ${{ inputs.highlight3_desc }}
+          CERT_HIGHLIGHT4_TITLE: ${{ inputs.highlight4_title }}
+          CERT_HIGHLIGHT4_DESC: ${{ inputs.highlight4_desc }}
+          CERT_HIGHLIGHT5_TITLE: ${{ inputs.highlight5_title }}
+          CERT_HIGHLIGHT5_DESC: ${{ inputs.highlight5_desc }}
           CERT_ID: ${{ inputs.cert_id }}
         run: |
           ARGS=(--name "$CERT_NAME")
@@ -104,7 +149,16 @@ jobs:
           if [ -n "$CERT_TIME_COMMITMENT" ]; then ARGS+=(--time-commitment "$CERT_TIME_COMMITMENT"); fi
           if [ -n "$CERT_MODE" ]; then ARGS+=(--mode "$CERT_MODE"); fi
           if [ -n "$CERT_HIGHLIGHTS_INTRO" ]; then ARGS+=(--highlights-intro "$CERT_HIGHLIGHTS_INTRO"); fi
-          if [ -n "$CERT_HIGHLIGHTS" ]; then ARGS+=(--highlights "$CERT_HIGHLIGHTS"); fi
+          if [ -n "$CERT_HIGHLIGHT1_TITLE" ]; then ARGS+=(--highlight1-title "$CERT_HIGHLIGHT1_TITLE"); fi
+          if [ -n "$CERT_HIGHLIGHT1_DESC" ]; then ARGS+=(--highlight1-desc "$CERT_HIGHLIGHT1_DESC"); fi
+          if [ -n "$CERT_HIGHLIGHT2_TITLE" ]; then ARGS+=(--highlight2-title "$CERT_HIGHLIGHT2_TITLE"); fi
+          if [ -n "$CERT_HIGHLIGHT2_DESC" ]; then ARGS+=(--highlight2-desc "$CERT_HIGHLIGHT2_DESC"); fi
+          if [ -n "$CERT_HIGHLIGHT3_TITLE" ]; then ARGS+=(--highlight3-title "$CERT_HIGHLIGHT3_TITLE"); fi
+          if [ -n "$CERT_HIGHLIGHT3_DESC" ]; then ARGS+=(--highlight3-desc "$CERT_HIGHLIGHT3_DESC"); fi
+          if [ -n "$CERT_HIGHLIGHT4_TITLE" ]; then ARGS+=(--highlight4-title "$CERT_HIGHLIGHT4_TITLE"); fi
+          if [ -n "$CERT_HIGHLIGHT4_DESC" ]; then ARGS+=(--highlight4-desc "$CERT_HIGHLIGHT4_DESC"); fi
+          if [ -n "$CERT_HIGHLIGHT5_TITLE" ]; then ARGS+=(--highlight5-title "$CERT_HIGHLIGHT5_TITLE"); fi
+          if [ -n "$CERT_HIGHLIGHT5_DESC" ]; then ARGS+=(--highlight5-desc "$CERT_HIGHLIGHT5_DESC"); fi
           if [ -n "$CERT_ID" ]; then ARGS+=(--cert-id "$CERT_ID"); fi
 
           python scripts/generate.py "${ARGS[@]}"

@@ -50,10 +50,12 @@ defaults in `config.json` when left blank.
      `templates/config.json` for this one certificate.
    - **highlights_intro** (optional) — override the achievement highlights
      intro paragraph.
-   - **highlights** (optional) — override the achievement highlights list.
-     GitHub Actions inputs are single-line, so use `Title | Description`
-     per item, separated by `;`, e.g.:
-     `Prompt engineering | Crafting effective prompts.; Strategic AI use | Deploying AI tools daily.`
+   - **highlight1_title** / **highlight1_desc** through **highlight5_title** /
+     **highlight5_desc** (optional) — override individual achievement
+     highlights. Each is its own field in the Actions form (GitHub Actions
+     inputs are single-line, so a title/description pair per field keeps each
+     highlight readable instead of one long delimited string). Leave a pair
+     blank to keep that slot's default from `templates/config.json`.
    - **commit_to_repo** (optional, default `false`) — if checked, the
      generated PDF is committed into a `certificates/` folder on the branch
      the workflow runs on, in addition to being uploaded as an artifact.
@@ -84,7 +86,10 @@ python scripts/generate.py \
   --time-commitment "2 hours per day" \
   --mode "Self-paced online" \
   --highlights-intro "Having completed this track, the candidate has..." \
-  --highlights "Prompt engineering | Crafting effective prompts.; Strategic AI use | Deploying AI tools daily." \
+  --highlight1-title "Prompt engineering" \
+  --highlight1-desc "Crafting effective prompts." \
+  --highlight2-title "Strategic AI use" \
+  --highlight2-desc "Deploying AI tools daily." \
   --output "output/jane-doe.pdf"
 ```
 

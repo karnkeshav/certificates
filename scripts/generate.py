@@ -54,19 +54,25 @@ def make_cert_id(prefix: str, track_letter: str, on_date: date) -> str:
     return f"{prefix}-{track_letter}-{on_date.strftime('%Y%m%d')}-{sequence:03d}"
 
 
-def parse_highlights(raw: str) -> list:
-    """Parse 'Title | Description; Title | Description; ...' into a list of dicts.
+MAX_HIGHLIGHTS = 5
 
-    GitHub Actions workflow_dispatch string inputs are single-line, so highlight
-    items are separated by ';' and each item's title/description by '|'.
+
+def resolve_highlights(overrides: list, defaults: list) -> list:
+    """Merge per-slot highlight overrides with config defaults.
+
+    `overrides` and `defaults` are both lists of up to MAX_HIGHLIGHTS
+    {"title", "desc"} dicts (or None entries in `overrides` for unset slots).
+    Each of the MAX_HIGHLIGHTS slots falls back independently to the config
+    default with the same index if it wasn't overridden.
     """
     highlights = []
-    for chunk in raw.split(";"):
-        chunk = chunk.strip()
-        if not chunk:
-            continue
-        title, _, desc = chunk.partition("|")
-        highlights.append({"title": title.strip(), "desc": desc.strip()})
+    for i in range(MAX_HIGHLIGHTS):
+        override = overrides[i] if i < len(overrides) else None
+        default = defaults[i] if i < len(defaults) else {"title": "", "desc": ""}
+        title = (override or {}).get("title") or default.get("title", "")
+        desc = (override or {}).get("desc") or default.get("desc", "")
+        if title:
+            highlights.append({"title": title, "desc": desc})
     return highlights
 
 
@@ -128,12 +134,9 @@ def parse_args(argv=None):
     parser.add_argument("--time-commitment", default=None, help='Time commitment, e.g. "1 hour per day" (default: from config)')
     parser.add_argument("--mode", default=None, help='Delivery mode, e.g. "Live and hands-on practice" (default: from config)')
     parser.add_argument("--highlights-intro", default=None, help="Achievement highlights intro paragraph (default: from config)")
-    parser.add_argument(
-        "--highlights",
-        default=None,
-        help="Achievement highlights as 'Title | Description; Title | Description; ...' "
-        "(default: from config)",
-    )
+    for i in range(1, MAX_HIGHLIGHTS + 1):
+        parser.add_argument(f"--highlight{i}-title", default=None, help=f"Highlight #{i} title (default: from config)")
+        parser.add_argument(f"--highlight{i}-desc", default=None, help=f"Highlight #{i} description (default: from config)")
     parser.add_argument("--config", default=str(ROOT / "templates" / "config.json"), help="Path to config.json")
     parser.add_argument("--template", default=str(ROOT / "templates" / "certificate.html"), help="Path to certificate.html")
     parser.add_argument("--output", default=None, help="Output PDF path (default: output/<slug>-certificate.pdf)")
@@ -156,7 +159,11 @@ def main(argv=None):
     time_commitment = args.time_commitment or config["time_commitment"]
     mode = args.mode or config["mode"]
     highlights_intro = args.highlights_intro or config["highlights_intro"]
-    highlights = parse_highlights(args.highlights) if args.highlights else config["highlights"]
+    highlight_overrides = [
+        {"title": getattr(args, f"highlight{i}_title"), "desc": getattr(args, f"highlight{i}_desc")}
+        for i in range(1, MAX_HIGHLIGHTS + 1)
+    ]
+    highlights = resolve_highlights(highlight_overrides, config["highlights"])
     cert_id = args.cert_id or make_cert_id(config["cert_id_prefix"], track_letter, today)
 
     values = {
